@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hökis.se - bästa svängen hökarängen</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #ff69b4, #8a2be2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #fff;
+            text-shadow: 1px 1px 2px #000;
+        }
+        header {
+            width: 100%;
+            background-color: #ff4500;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-family: 'Permanent Marker', cursive;
+        }
+        nav {
+            margin-top: 1rem;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 1.2rem;
+            font-family: 'Press Start 2P', cursive;
+        }
+        .container {
+            margin: 2rem;
+            text-align: center;
+            width: 90%;
+            max-width: 1200px;
+        }
+        .container h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-family: 'Permanent Marker', cursive;
+        }
+        .upload-form, .turns-gallery, .leaderboard {
+            margin-top: 2rem;
+        }
+        .upload-form button, .turns-gallery button {
+            background-color: #00ff7f;
+            color: #000;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-family: 'Press Start 2P', cursive;
+        }
+        .turn {
+            display: inline-block;
+            margin: 1rem;
+            text-align: left;
+            width: calc(50% - 2rem);
+        }
+        .turn img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        footer {
+            width: 100%;
+            background-color: #ff4500;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            bottom: 0;
+        }
+        @media (max-width: 600px) {
+            nav a {
+                display: block;
+                margin: 0.5rem 0;
+            }
+            .turn {
+                width: calc(100% - 2rem);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>hökis.se - bästa svängen hökarängen</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Upload Turn</a>
+            <a href="#">Leaderboard</a>
+            <a href="#">Profile</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h2>Welcome to the Best Turns in Hökarängen!</h2>
+        <div class="upload-form">
+            <h3>Upload Your Best Turn</h3>
+            <button>Upload Turn</button>
+        </div>
+        <div class="turns-gallery">
+            <h3>Recent Turns</h3>
+            <div class="turn">
+                <img src="https://via.placeholder.com/400" alt="Turn 1">
+                <p>Turn 1 Description</p>
+                <button>Vote</button>
+            </div>
+            <div class="turn">
+                <img src="https://via.placeholder.com/400" alt="Turn 2">
+                <p>Turn 2 Description</p>
+                <button>Vote</button>
+            </div>
+        </div>
+        <div class="leaderboard">
+            <h3>Leaderboard</h3>
+            <p>Coming Soon...</p>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 hökis.se - bästa svängen hökarängen</p>
+    </footer>
+</body>
+</html>
