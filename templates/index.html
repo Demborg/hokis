@@ -98,6 +98,7 @@
             }
         }
     </style>
+    <script src="https://unpkg.com/htmx.org@1.4.0"></script>
 </head>
 <body>
     <header>
@@ -113,20 +114,15 @@
         <h2>Welcome to the Best Turns in Hökarängen!</h2>
         <div class="upload-form">
             <h3>Upload Your Best Turn</h3>
-            <button>Upload Turn</button>
+            <form hx-post="/upload-turn" hx-swap="outerHTML" hx-encoding="multipart/form-data">
+                <input type="file" name="turnImage" accept="image/*" required>
+                <textarea name="description" placeholder="Describe your turn" required></textarea>
+                <button type="submit">Upload Turn</button>
+            </form>
         </div>
-        <div class="turns-gallery">
+        <div class="turns-gallery" hx-get="/recent-turns" hx-trigger="load">
             <h3>Recent Turns</h3>
-            <div class="turn">
-                <img src="https://via.placeholder.com/400" alt="Turn 1">
-                <p>Turn 1 Description</p>
-                <button>Vote</button>
-            </div>
-            <div class="turn">
-                <img src="https://via.placeholder.com/400" alt="Turn 2">
-                <p>Turn 2 Description</p>
-                <button>Vote</button>
-            </div>
+            <!-- Recent turns will be loaded here -->
         </div>
         <div class="leaderboard">
             <h3>Leaderboard</h3>
