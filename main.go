@@ -45,6 +45,7 @@ func uploadTurnHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Println("Parsing multipart form")
 	err := r.ParseMultipartForm(10 << 20) // 10 MB max file size
 	if err != nil {
 		log.Println("Error parsing multipart form:", err)
@@ -52,6 +53,7 @@ func uploadTurnHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	log.Println("Retrieving form file")
 	file, handler, err := r.FormFile("turnImage")
 	if err != nil {
 		log.Println("Error retrieving form file:", err)
@@ -60,6 +62,7 @@ func uploadTurnHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer file.Close()
 
+	log.Println("Creating file on server")
 	filePath := filepath.Join("static", "uploads", handler.Filename)
 	out, err := os.Create(filePath)
 	if err != nil {
@@ -69,6 +72,7 @@ func uploadTurnHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer out.Close()
 
+	log.Println("Reading from file")
 	_, err = out.ReadFrom(file)
 	if err != nil {
 		log.Println("Error reading from file:", err)
@@ -80,46 +84,34 @@ func uploadTurnHandler(w http.ResponseWriter, r *http.Request) {
 	newTurn := Turn{Image: "/" + filePath, Description: description}
 	turns = append(turns, newTurn)
 
-	tmpl, err := template.New("turn").Parse(`
-        <div class="turn">
-            <img src="{{.Image}}" alt="Turn">
-            <p>{{.Description}}</p>
-            <button>Vote</button>
-        </div>
-    `)
-	if err != nil {
-		log.Println("Error parsing turn template:", err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "text/html")
-	if err := tmpl.Execute(w, newTurn); err != nil {
-		log.Println("Error executing turn template:", err)
+	if err := renderTurnTemplate(w, newTurn); err != nil {
+		log.Println("Error rendering turn template:", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
 
 func recentTurnsHandler(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.New("turn").Parse(`
-        <div class="turn">
-            <img src="{{.Image}}" alt="Turn">
-            <p>{{.Description}}</p>
-            <button>Vote</button>
-        </div>
-    `)
-	if err != nil {
-		log.Println("Error parsing turn template:", err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
 	w.Header().Set("Content-Type", "text/html")
 	for _, turn := range turns {
-		if err := tmpl.Execute(w, turn); err != nil {
-			log.Println("Error executing turn template:", err)
+		if err := renderTurnTemplate(w, turn); err != nil {
+			log.Println("Error rendering turn template:", err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 	}
+}
+
+func renderTurnTemplate(w http.ResponseWriter, turn Turn) error {
+	tmpl, err := template.ParseFiles("templates/turn.html")
+	if err != nil {
+		log.Println("Error parsing turn template:", err)
+		return err
+	}
+
+	if err := tmpl.Execute(w, turn); err != nil {
+		log.Println("Error executing turn template:", err)
+		return err
+	}
+
+	return nil
 }
